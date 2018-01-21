@@ -22,11 +22,15 @@ class m180120_180918_create_book_table extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),            
             'rubric_id' => $this->integer(),
+            'publishing_id' => $this->integer(),
             'date_publishing'=>$this->date()->notNull(),
         ], $tableOptions);
         
         // creates index for column `rubric_id`
         $this->createIndex('idx-book-rubric_id', '{{%book}}', 'rubric_id');
+
+        // creates index for column `publishing_id`
+        $this->createIndex('idx-book-publishing_id', '{{%book}}', 'publishing_id');
     }
 
     /**

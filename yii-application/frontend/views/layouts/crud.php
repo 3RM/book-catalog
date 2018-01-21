@@ -40,7 +40,7 @@ AppAsset::register($this);
             ['label' => 'Главная', 'url' => ['/']],
             ['label' => 'Книги', 'url' => ['/book/index']],
             ['label' => 'Авторы', 'url' => ['/author/index']],
-            ['label' => 'Издательства', 'url' => ['/admin/category/index']],
+            ['label' => 'Издательства', 'url' => ['/publishing/index']],
         ],
     ]);
     NavBar::end();

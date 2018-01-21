@@ -4,12 +4,15 @@ namespace frontend\controllers;
 
 use Yii;
 use common\models\Book;
+use common\models\Author;
+use common\models\Publishing;
 use common\models\ImageUpload;
 use yii\web\UploadedFile;
 use common\models\BookSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\helpers\ArrayHelper;
 
 /**
  * BookController implements the CRUD actions for Book model.
@@ -153,12 +156,9 @@ class BookController extends Controller
 
     public function actionViewImages($id)
     {
-        foreach($this->findModel($id)->imagesSrc as $image)
-        {
-            $images[] = [
-                    'content' => "<img src='".'/uploads/'.$image['src']."' class='slider-img'/>",
-            ];
-        }
+        $model = $this->findModel($id);
+
+        $images = $model->getGalleryUrls($id);
 
         return $this->render('view-images', compact('images'));
     }
@@ -166,6 +166,37 @@ class BookController extends Controller
     public function actionSetAuthors($id)
     {
         $book = $this->findModel($id);
-        var_dump($book->authors);die;
+
+        $selectedAuthors = $book->getSelectedAuthors();
+
+        $authors = ArrayHelper::map(Author::find()->all(), 'id', 'title');
+
+        if(Yii::$app->request->isPost){
+            $authors = Yii::$app->request->post('authors');
+            $book->saveAuthors($authors);
+
+            return $this->redirect(['view', 'id' => $book->id]);
+        }
+
+        return $this->render('authors', compact('selectedAuthors', 'authors'));
+
+    }
+
+    public function actionSetPublishing($id)
+    {
+        $book = $this->findModel($id);
+
+        $selectedPublishing = $book->getSelectedPublishing();
+
+        $publishing = ArrayHelper::map(Publishing::find()->all(), 'id', 'title');
+
+        if(Yii::$app->request->isPost){
+            $publishing_id = Yii::$app->request->post('publishing');
+            $book->savePublishing($publishing_id);
+
+            return $this->redirect(['view', 'id' => $book->id]);
+        }
+
+        return $this->render('publishing', compact('selectedPublishing', 'publishing'));
     }
 }

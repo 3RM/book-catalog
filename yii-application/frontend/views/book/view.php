@@ -19,6 +19,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить изображение', ['set-image', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Просмотреть все изображения', ['view-images', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Добавить автора', ['set-authors', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Добавить издание', ['set-publishing', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -33,12 +34,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'title',
-            //'photo_id',
+            [
+                'label' => 'Авторы',
+                'value' => $model->authorsList,
+            ],
+            [
+                'format' => 'html',
+                'label' => 'Фото',
+                'value' => function($data){
+                    if(isset($data->mainImage->src)){
+                        return Html::img('/uploads/'.$data->mainImage->src, ['width' => '200px']);
+                    }else{
+                        return false;
+                    }
+                }
+            ],
+            [
+                'label' => 'Издание',
+                'value' => function($data){
+                    if(isset($data->publishing->title)){
+                        return $data->publishing->title;
+                    }else{
+                        return false;
+                    }
+                }
+            ],
             //'rubric_id',
             'date_publishing',            
         ],
     ]) ?>
-
-    <?= var_dump($model->imagesSrc); ?>
 
 </div>

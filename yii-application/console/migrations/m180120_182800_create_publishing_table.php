@@ -21,17 +21,11 @@ class m180120_182800_create_publishing_table extends Migration
         $this->createTable('{{%publishing}}', [
             'id' => $this->primaryKey(),
             'title' => $this->string()->notNull(),
-            'book_id' => $this->integer()->notNull(),
             'address_id' => $this->integer()->notNull(),
-            'phone_id' => $this->integer()->notNull(),
         ], $tableOptions);
 
-    // creates index for column `pbook_id`
-        $this->createIndex('idx-publishing-book_id', '{{%publishing}}', 'book_id');
     // creates index for column `address_id`
         $this->createIndex('idx-publishing-address_id', '{{%publishing}}', 'address_id');
-    // creates index for column `phone_id`
-        $this->createIndex('idx-publishing-phone_id', '{{%publishing}}', 'phone_id');
     }
 
     /**
