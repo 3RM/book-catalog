@@ -63,7 +63,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //'rubric_id',
             [
                 'attribute' => 'rubric_id',
-                'value' => $model->rubric->title,
+                'value' => function($data){
+                    if(isset($data->rubric->title)){
+                        return $data->rubric->title;
+                    }else{
+                        return false;
+                    }
+                }
             ],
             'date_publishing',            
         ],
