@@ -36,7 +36,7 @@ class Book extends \yii\db\ActiveRecord
     {
         return [
             [['title'], 'required'],
-            [['publishing_id'], 'integer'],
+            [['publishing_id', 'rubric_id'], 'integer'],
             [['date_publishing'], 'date', 'format'=>'php:Y-m-d'],
             [['date_publishing'], 'default', 'value' => date('Y-m-d')],
             [['title'], 'string', 'max' => 255],
@@ -49,12 +49,17 @@ class Book extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
-            'rubric_id' => 'Rubric ID',
-            'publishing_id' => 'Publishing id',
-            'date_publishing' => 'Date Publishing',
+            'id' => '№ Книги',
+            'title' => 'Название',
+            'rubric_id' => 'Рубрика',
+            'publishing_id' => 'Издание',
+            'date_publishing' => 'Дата публикации',
         ];
+    }
+
+    public function getRubric()
+    {
+        return $this->hasOne(Rubric::className(),['id'=>'rubric_id']);
     }
 
     public function getPublishing()

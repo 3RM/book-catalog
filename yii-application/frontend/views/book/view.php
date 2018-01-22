@@ -20,6 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Просмотреть все изображения', ['view-images', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Добавить автора', ['set-authors', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Добавить издание', ['set-publishing', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
+        <?= Html::a('Добавить рубрику', ['set-rubric', 'id' => $model->id], ['class' => 'btn btn-default']) ?>
         <?= Html::a('Удалить', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [
@@ -60,6 +61,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             //'rubric_id',
+            [
+                'attribute' => 'rubric_id',
+                'value' => $model->rubric->title,
+            ],
             'date_publishing',            
         ],
     ]) ?>

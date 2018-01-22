@@ -41,6 +41,7 @@ AppAsset::register($this);
             ['label' => 'Книги', 'url' => ['/book/index']],
             ['label' => 'Авторы', 'url' => ['/author/index']],
             ['label' => 'Издательства', 'url' => ['/publishing/index']],
+            ['label' => 'Рубрики', 'url' => ['/rubric/index']],
         ],
     ]);
     NavBar::end();

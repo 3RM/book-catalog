@@ -7,6 +7,7 @@ use common\models\Book;
 use common\models\Author;
 use common\models\Publishing;
 use common\models\ImageUpload;
+use common\models\Rubric;
 use yii\web\UploadedFile;
 use common\models\BookSearch;
 use yii\web\Controller;
@@ -198,5 +199,25 @@ class BookController extends Controller
         }
 
         return $this->render('publishing', compact('selectedPublishing', 'publishing'));
+    }
+
+    public function actionSetRubric($id)
+    {
+        $model = new Rubric();
+
+        $book = $this->findModel($id);
+
+        if(Yii::$app->request->isPost)
+        {
+            $book->rubric_id = Yii::$app->request->post('Rubric')['parent_id'];
+            $book->save();
+
+            return $this->redirect(['view', 'id' => $book->id]);
+        }
+
+        return $this->render('rubric', [
+            'model' => $model,
+            'selectedRubric' => $book->rubric_id,
+        ]);
     }
 }
