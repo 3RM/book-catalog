@@ -1,7 +1,7 @@
 Структура:
 
 http://baseUrl/
-				-book
-				-author
-				-publishing
-				-rubric
+				\n-book
+				\n-author
+				\n-publishing
+				\n-rubric
