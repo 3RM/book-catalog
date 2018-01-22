@@ -46,11 +46,17 @@ class Rubric extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Связь книг
+     */
     public function getBooks()
     {
         return $this->hasMany(Book::className(), ['rubric_id'=>'id']);
     }
 
+    /**
+     * Связь рубрик для иерархии
+     */
     public function getRubric()
     {
         return $this->hasOne(Rubric::className(),['id' => 'parent_id']);

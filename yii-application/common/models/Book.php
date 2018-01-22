@@ -57,16 +57,25 @@ class Book extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * Связь по рубрикам
+    */
     public function getRubric()
     {
         return $this->hasOne(Rubric::className(),['id'=>'rubric_id']);
     }
 
+    /**
+     * Связь по издательствам
+    */
     public function getPublishing()
     {
         return $this->hasOne(Publishing::className(), ['id' => 'publishing_id']);
     }
 
+    /**
+     * Выборка текущего издательства для dropDown
+    */
     public function getSelectedPublishing()
     {
         $selectedPublishing = $this->getPublishing()->select('id')->asArray()->all();
@@ -74,6 +83,9 @@ class Book extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Сохранение издательства в модели book
+    */
     public function savePublishing($publishing_id)
     {           
         $this->publishing_id = $publishing_id;
@@ -81,12 +93,18 @@ class Book extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Связь по авторам
+    */
     public function getAuthors()
     {
         return $this->hasMany(Author::className(), ['id' => 'author_id'])
             ->viaTable('book_author', ['book_id' => 'id']);
     }
 
+    /**
+     * Выборка текущих авторов книги
+    */
     public function getSelectedAuthors()
     {
         $selectedAuthors = $this->getAuthors()->select('id')->asArray()->all();
@@ -94,16 +112,25 @@ class Book extends \yii\db\ActiveRecord
 
     }
 
+    /**
+     * Удаление текущих авторов книги
+    */
     public function clearCurrentAuthors()
     {
         BookAuthor::deleteAll(['book_id' => $this->id]);
     }
 
+    /**
+     * Список существующих авторов
+    */
     public function getAuthorsList()
     {
         return implode(", ", ArrayHelper::map($this->authors, "id", "title"));
     }
 
+    /**
+     * Привязка автора(ов) к модели book
+    */
     public function saveAuthors($authors)
     {
         if(is_array($authors))
@@ -126,24 +153,33 @@ class Book extends \yii\db\ActiveRecord
         return $this->hasMany(Photo::className(), ['book_id' => 'id']);
     }
 
+    /**
+     * Выборка имен картинок
+    */
     public function getImagesSrc()
     {
         return $this->getImages()->select('src')->asArray()->all();
     }
 
+    /**
+     * Выборка первой картинки книги.
+     * Она тем самым будет являться главное и выводиться в вид
+    */
     public function getMainImage()
     {
         return $this->getImages()->select('src')->one();
     }
 
     /**
-    * @return 
+    * Форматирование даты
     */
     public function getDate()
     {
         return Yii::$app->formatter->asDate($this->date);
     }
-
+    /**
+     * Сохранение изображения в БД
+     */
     public function saveImage($filename){
         $image = new Photo();
         $image->book_id = $this->id;
@@ -152,6 +188,9 @@ class Book extends \yii\db\ActiveRecord
         return $image->save(false);
     }
 
+    /**
+     * Массив с изображениями для виджета Carousel
+     */
     public function getGalleryUrls($id)
     {
         foreach($this->imagesSrc as $image)

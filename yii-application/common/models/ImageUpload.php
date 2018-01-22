@@ -19,14 +19,23 @@ class ImageUpload extends Model
 		];
 	}
 
+	/**
+     * Путь к изображениям
+     */
 	private function getFolder(){
 		return Yii::getAlias('@frontend') . '/web/uploads/';
 	}
 
+	/**
+     * Генерация уникального имени
+     */
 	private function generateFilename(){
 		return strtolower(md5(uniqid($this->image->baseName)). '.' . $this->image->extension);
 	}
 
+	/**
+     * Сохранение изображения по пути getFolder()
+     */
 	public function saveImage()
 	{
 		$filename  = $this->generateFilename();
@@ -36,6 +45,9 @@ class ImageUpload extends Model
 		return $filename;
 	}
 
+	/**
+     * Загрузка файла
+     */
 	public function uploadImage(UploadedFile $file){
 
 		$this->image = $file;

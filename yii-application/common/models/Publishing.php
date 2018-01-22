@@ -44,17 +44,23 @@ class Publishing extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'title' => 'Title',
+            'id' => '№',
+            'title' => 'Издательство',
 
         ];
     }
 
+    /**
+     * Связь книг
+     */
     public function getBooks()
     {
         return $this->hasMany(Book::className(), ['publishing_id' => 'id']);
     }
 
+    /**
+     * Список текущих книг издательства
+     */
     public function getBooksList()
     {
         return implode(", ", ArrayHelper::map($this->books, "id", "title"));
@@ -68,12 +74,17 @@ class Publishing extends \yii\db\ActiveRecord
         return $this->hasOne(PublishingAddress::className(), ['publishing_id' => 'id']);
     }
 
+    /**
+     * Удаление адреса
+     */
     public function clearAddress($id)
     {
         PublishingAddress::deleteAll(['publishing_id' => $this->id]);
     }
 
-
+    /**
+     * Форматирование адреса в строку
+     */
     public function getAddress()
     {
         if(isset($this->publishingAddresses)){
@@ -91,6 +102,9 @@ class Publishing extends \yii\db\ActiveRecord
         return $this->hasMany(PublishingPhone::className(), ['publishing_id' => 'id']);
     }
 
+    /**
+     * Список текущих номеров издательства
+     */
     public function getPhonesNumberList()
     {
         return implode(", ", ArrayHelper::map($this->phones, "id", "phone"));
